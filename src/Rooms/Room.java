@@ -5,7 +5,7 @@ import People.Person;
 public class Room {
 	Person occupant;
 	int xLoc,yLoc;
-	
+
 	public Room(int x, int y)
 	{
 		xLoc = x;
@@ -32,5 +32,5 @@ public class Room {
 	{
 		occupant = null;
 	}
-	
+
 }

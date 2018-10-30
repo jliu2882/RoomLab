@@ -33,5 +33,8 @@ public class Person {
 		this.yLoc = yLoc;
 	}
 
+	public String toString(){
+		return this.firstName + " " + this.familyName;
+	}
 
 }
