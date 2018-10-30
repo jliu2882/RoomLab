@@ -8,28 +8,13 @@ import java.util.Scanner;
 
 public class Runner {
 
-	private static int r = 5;
-	private static int c = 5;
-
 	private static boolean gameOn = true;
 
 	public static void main(String[] args)
 	{
-		Room[][] building = new Room[r][c];
+		Board board = new Board(5,5);
+		Room[][] building = board.getBuilding();
 
-		//Fill the building with normal rooms
-		for (int x = 0; x<building.length; x++)
-		{
-			for (int y = 0; y < building[x].length; y++)
-			{
-				building[x][y] = new Room(x,y);
-			}
-		}
-
-		//Create a random winning room.
-		int x = (int)(Math.random()*building.length);
-		int y = (int)(Math.random()*building.length);
-		building[x][y] = new WinningRoom(x, y);
 
 		//Setup player 1 and the input scanner
 		Scanner in = new Scanner(System.in);
@@ -38,7 +23,7 @@ public class Runner {
 		System.out.println("What is your last name?");
 		String familyName = in.nextLine();
 		Person player1 = new Person(firstName,familyName,0,0);
-		System.out.println(player1.toString() + ", we believe there is a criminal on the loose. Can you help us catch him?");
+		System.out.println(player1.toString() + ", we believe there is a hostage on the loose. Can you help us get the hostage without getting caught?");
 		if(!in.nextLine().toLowerCase().contains("ye")){
 			System.out.println("Well, too bad!");
 		}
@@ -49,7 +34,9 @@ public class Runner {
 			System.out.println("Where would you like to move? (Choose N, S, E, W)");
 			String move = in.nextLine();
 			if(move.toLowerCase().equals("map")){
-				printMap(player1.getxLoc(),player1.getyLoc());
+				String init = player1.toString().substring(0,1);
+				board.printMap(player1.getxLoc(),player1.getyLoc(),init);
+				System.out.println("You are the " + init.toUpperCase());
 			}
 			if(validMove(move, player1, building))
 			{
@@ -63,36 +50,6 @@ public class Runner {
 
 		}
 		in.close();
-	}
-
-	public static void printMap(int x, int y){
-		String[][] map = new String[2*r+1][2*c+1];
-		String finMap = "";
-		for(int i =0; i < map.length; i++){
-			if(i%2==0){
-				for(int j= 0;j <map[i].length;j++){
-					map[i][j] = "-";
-				}
-			}
-			else{
-				for(int j =0; j<map[i].length;j++){
-					if(j%2==0){
-						map[i][j] = "|";
-					}
-					else{
-						map[i][j] = " ";
-					}
-				}
-			}
-		}
-		map[2*x+1][2*y+1] = "x";
-		for(String[] row : map){
-			for(String column: row){
-				finMap += column;
-			}
-			finMap += "\n";
-		}
-		System.out.println(finMap);
 	}
 	/**
 	 * Checks that the movement chosen is within the valid game map.
