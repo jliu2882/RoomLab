@@ -8,6 +8,7 @@ public class Person {
 	String familyName;
 	int xLoc, yLoc;
 	String team;
+	int hp;
 
 
 	public int getxLoc() {
@@ -26,17 +27,24 @@ public class Person {
 		this.yLoc = yLoc;
 	}
 
-	public Person (String firstName, String familyName, int xLoc, int yLoc, String id)
+	public Person (String firstName, String familyName, int xLoc, int yLoc, String id,int hp)
 	{
 		this.firstName = firstName;
 		this.familyName = familyName;
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		this.team = id;
+		this.hp = hp;
 	}
 
 	public String toString(){
 		return this.firstName + " " + this.familyName;
 	}
 
+	public void loseHP(Person p){
+		if(this.hp<=0){
+			p = null;
+		}
+		this.hp--;
+	}
 }

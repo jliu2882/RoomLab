@@ -4,6 +4,9 @@ import People.Criminal;
 import Rooms.Room;
 import Rooms.WinningRoom;
 import People.Person;
+import People.Criminal;
+
+import javax.sound.midi.SysexMessage;
 import java.util.Scanner;
 
 public class Board {
@@ -11,6 +14,7 @@ public class Board {
     private static int c;
     private static int mem1;
     private static int mem2;
+    private static int floorNum = 1;
 
     public Board(int r, int c) {
         this.r = r;
@@ -38,8 +42,8 @@ public class Board {
         return building;
     }
     public static Criminal placeEnemy(){
-        int x = mem1 + fiftyFifty();
-        int y = mem2 + fiftyFifty();
+        int x = mem1 + chanceSim(2);
+        int y = mem2 + chanceSim(2);
         if(x>r){
             x=r;
         } else if(x<0){
@@ -50,11 +54,11 @@ public class Board {
         } else if(y<0){
             y=0;
         }
-        Criminal enemy1 = new Criminal("Inal","Crimson",x,y);
+        Criminal enemy1 = new Criminal("Inal","Crimson",x,y,floorNum);
         return enemy1;
     }
-    public static int fiftyFifty(){
-        int r = (int)(Math.random()*2);
+    public static int chanceSim(int n){
+        int r = (int)(Math.random()*n);
         if(r==0){
             return -1;
         }
@@ -94,7 +98,125 @@ public class Board {
         }
         System.out.println(finMap);
     }
-    public static void combat(){
+    public static boolean validMove(String move, Person p, Room[][] map) {
+        /**
+         * Checks that the movement chosen is within the valid game map.
+         * @param move the move chosen
+         * @param p person moving
+         * @param map the 2D array of rooms
+         * @return
+         */
+        move = move.toLowerCase().trim();
+        switch (move) {
+            case "n":
+                if (p.getxLoc() > 0)
+                {
+                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+                    map[p.getxLoc()-1][p.getyLoc()].enterRoom(p);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            case "e":
+                if (p.getyLoc()< map[p.getyLoc()].length -1)
+                {
+                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+                    map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            case "s":
+                if (p.getxLoc() < map.length - 1)
+                {
+                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+                    map[p.getxLoc()+1][p.getyLoc()].enterRoom(p);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            case "w":
+                if (p.getyLoc() > 0)
+                {
+                    map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+                    map[p.getxLoc()][p.getyLoc()-1].enterRoom(p);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            default:
+                break;
+
+        }
+        return true;
+    }
+    public static void combat(Person player, Person enemy){
         Scanner in = new Scanner(System.in);
+        String defense = in.nextLine();
+        if(defense.toLowerCase().contains("sidestep")){
+            if(chanceSim(3)<0){
+                System.out.println("... sword. You tried to sidestep, but his swing connects. Lose 1 hp.");
+                player.loseHP(player);
+            } else if(chanceSim(2)<0){
+                System.out.println("... pistol. He shoots, but you step away swiftly.");
+            } else{
+                System.out.println("... rapier. He lunges at you, but you step to the side with ease.");
+            }
+        } else if(defense.toLowerCase().contains("backpedal")){
+            if(chanceSim(3)<0){
+                System.out.println("... pistol. You tried to back up, but he manges to land a shot. Lose 1 hp.");
+                player.loseHP(player);
+            } else if(chanceSim(2)<0){
+                System.out.println("... rapier. He lunges at you, and misses you by an inch.");
+            } else{
+                System.out.println("... sword. He swings, misses, and lodges his sword into the wall.");
+            }
+        } else if(defense.toLowerCase().contains("armor")){
+            if(chanceSim(3)<0){
+                System.out.print("... rapier. You put on the flimsy armor, but the rapier cuts through. Lose 1 hp.");
+                player.loseHP(player);
+            } else if(chanceSim(2)<0){
+                System.out.println("... sword. He swings, only to hit the tough chainmail.");
+            } else{
+                System.out.println("... pistol. He shoots, and the bullet is easily deflected. Time to strik back!");
+            }
+        }
+        System.out.println("You quickly reach into you pockets for any weapons. \n \033You have 4 pockets, which one do you go for?");
+        String choice = in.nextLine();
+        int offense = Integer.parseInt(choice);
+        if(offense == 1){
+            if(chanceSim(10)>0) {
+                System.out.println("You pull out a gun, and get a clean shot. The criminal runs out of the building.");
+                enemy.loseHP(enemy);
+            } else {
+                System.out.println("You pull out a gun, but you miss your shot. The criminal runs off, still somewhere in the building.");
+                enemy.loseHP(enemy);
+                placeEnemy();
+            }
+        }
+        else if(offense == 2){
+            System.out.println("You pull out your kitchen knife, and chase him. The criminal runs off, still somewhere in the building.");
+            enemy.loseHP(enemy);
+            placeEnemy();
+        }
+        else if(offense == 3){
+            System.out.println("You pull out a bag of sand. You menacingly throw it at him, blinding him. He runs through a window, and is promptly caught and arrested by the police.");
+            enemy.loseHP(enemy);
+        }
+        else if( offense == 4){
+            System.out.println("You pull out absolutely nothing.");
+        }
     }
 }
