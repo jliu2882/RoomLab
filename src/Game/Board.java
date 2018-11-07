@@ -1,9 +1,7 @@
 package Game;
 
 import People.Criminal;
-import Rooms.Bedroom;
-import Rooms.Room;
-import Rooms.WinningRoom;
+import Rooms.*;
 import People.Person;
 import People.Criminal;
 
@@ -35,11 +33,19 @@ public class Board {
         {
             for (int y = 0; y < building[x].length; y++)
             {
-                if(chanceSim(2)>0) {
+                int rand = (int)(Math.random()*6);
+                if(rand==0) {
                     building[x][y] = new Room(x, y);
-                }
-                else{
+                }else if(rand==1){
                     building[x][y] = new Bedroom(x, y);
+                }else if(rand==2){
+                    building[x][y] = new Bathroom(x, y);
+                }else if(rand==3){
+                    building[x][y] = new DiningRoom(x, y);
+                }else if(rand==4){
+                    building[x][y] = new MysteriousRoom(x, y);
+                }else if(rand==5){
+                    building[x][y] = new LivingRoom(x, y);
                 }
             }
         }
@@ -57,13 +63,13 @@ public class Board {
         int y = mem2 + chanceSim(2);
         if(x>r){
             x=r;
-        } else if(x<0){
-            x=0;
+        } else if(x<1){
+            x=1;
         }
         if(y>c){
             y=c;
-        } else if(y<0){
-            y=0;
+        } else if(y<1){
+            y=1;
         }
         Criminal enemy1 = new Criminal("Crim","inal",x,y,floorNum);
         return enemy1;
@@ -100,13 +106,10 @@ public class Board {
                 }
             }
         }
-        map[2*x+1][4*y+2] = init.toUpperCase();
-        if(x2<r&&x2>=0 || y2<c&&y2>=0) {
+        if(p2.getHP()>0) {
             map[2*x2 + 1][4*y2 + 2] = "\uD83D\uDC80";
         }
-        else{
-            map[2*x2+1][4*y2+2]=" ";
-        }
+        map[2*x+1][4*y+2] = init.toUpperCase();
         for(String[] row : map){
             for(String column: row){
                 finMap += column;
@@ -185,7 +188,7 @@ public class Board {
         if(defense.toLowerCase().contains("sidestep")){
             if(chanceSim(3)<0){
                 System.out.println("... sword. You tried to sidestep, but his swing connects. Lose 1 hp.");
-                player.loseHP(enemy,true);
+                player.loseHP(player);
             } else if(chanceSim(2)<0){
                 System.out.println("... pistol. He shoots, but you step away swiftly.");
             } else{
@@ -194,7 +197,7 @@ public class Board {
         } else if(defense.toLowerCase().contains("backpedal")){
             if(chanceSim(3)<0){
                 System.out.println("... pistol. You tried to back up, but he lands a shot. Lose 1 hp.");
-                player.loseHP(enemy,true);
+                player.loseHP(player);
             } else if(chanceSim(2)<0){
                 System.out.println("... rapier. He lunges at you, and misses you by an inch.");
             } else{
@@ -203,39 +206,48 @@ public class Board {
         } else if(defense.toLowerCase().contains("armor")){
             if(chanceSim(3)<0){
                 System.out.print("... rapier. You put on the flimsy armor, but the rapier cuts through. Lose 1 hp.");
-                player.loseHP(enemy,true);
+                player.loseHP(player);
             } else if(chanceSim(2)<0){
                 System.out.println("... sword. He swings, only to hit the tough chainmail.");
             } else{
-                System.out.println("... pistol. He shoots, and the bullet is easily deflected. Time to strik back!");
+                System.out.println("... pistol. He shoots, and the bullet is easily deflected. Time to strike back!");
             }
         } else{
             System.out.println("That wasn't an option. Please choose again!");
             combat(player,enemy);
         }
+        System.out.println("The criminal seems to be ready for your next attack");
         System.out.println("You quickly reach into you pockets for any weapons. \n \033You have 4 pockets, which one do you go for?");
         String choice = in.nextLine();
         int offense = Integer.parseInt(choice);
         if(offense == 1){
             if(chanceSim(10)>0) {
                 System.out.println("You pull out a gun, and get a clean shot. The criminal runs out of the building.");
-                enemy.loseHP(player,true);
+                enemy.loseHP(enemy);
             } else {
-                System.out.println("You pull out a gun, but you miss your shot. The criminal runs off, still somewhere in the building.");
-                enemy.loseHP(player,true);
+                System.out.println("You pull out a gun, but you miss your shot. The criminal runs off.");
+                enemy.loseHP(enemy);
             }
         }
         else if(offense == 2){
             System.out.println("You pull out your kitchen knife, and chase him. The criminal runs off.");
-            enemy.loseHP(player,true);
+            enemy.loseHP(enemy);
         }
         else if(offense == 3){
             System.out.println("You pull out a bag of sand. You menacingly throw it at him, blinding him. He runs through a window, and is promptly caught and arrested by the police.");
-            enemy.loseHP(player,true);
+            enemy.loseHP(enemy);
         }
         else if( offense == 4){
             System.out.println("You pull out absolutely nothing. \n You try to get away.");
-            player.moveRandom();
+            if(chanceSim(2)<0){
+                player.setxLoc(0);
+                player.setyLoc(0);
+                System.out.println("You get away successfully!");
+            }
+            else{
+                System.out.println("You fail to get away! \n You see him again, and he reaches for a ... \n \033Quick, do something! You can sidestep, backpedal, or reach for the armor on the table.\033");
+                combat(player,enemy);
+            }
         }
     }
 }

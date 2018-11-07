@@ -2,6 +2,7 @@ package People;
 
 import Game.Runner;
 import Game.Board;
+import Rooms.Room;
 
 /**
  * Person represents the player as they move through the game.
@@ -30,6 +31,10 @@ public class Person {
 		this.yLoc = yLoc;
 	}
 
+	public int getHP() {
+		return hp;
+	}
+
 	public Person (String firstName, String familyName, int xLoc, int yLoc, String id,int hp)
 	{
 		this.firstName = firstName;
@@ -53,19 +58,14 @@ public class Person {
 		}
 	}
 
-	public void loseHP(Person p,Boolean tf){
+	public void loseHP(Person p){
 		this.hp--;
 		if(this.team.equals("Player") && this.hp<=0){
 			Runner.gameOff();
 		}
-		if(this.team.equals("Criminal") && this.hp<=0 && !tf){
-			Criminal enemy1 = Board.placeEnemy();
-		}
 		if(this.team.equals("Criminal") && this.hp<=0){
-			this.setxLoc(9999);
+			p=null;
 		}
-		if(tf){
-			System.out.println(this.team + " has " + this.hp + "hp left.");
-		}
+		System.out.println(this.team + " has " + this.hp + " hp left.");
 	}
 }

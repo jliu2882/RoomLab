@@ -30,6 +30,7 @@ public class Room {
 	 */
 	public void leaveRoom(Person x)
 	{
+		occupant = x;
 		occupant = null;
 	}
 
