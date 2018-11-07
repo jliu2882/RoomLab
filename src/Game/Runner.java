@@ -40,7 +40,7 @@ public class Runner {
 		{
 			System.out.println("Where would you like to move? (Choose N, S, E, W)");
 			String move = in.nextLine();
-			if(board.validMove(move, player1, building) && !move.toLowerCase().equals("map"))
+			if(board.validMove(move, player1, building))
 			{
 				board.printMap(player1,enemy1,player1.toString().substring(0,1));
 				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
@@ -59,7 +59,7 @@ public class Runner {
 			System.out.println("You have lost!");
 		}
 		else{
-			System.out.println("Congratulations!"); 
+			System.out.println("Congratulations!");
 		}
 		in.close();
 	}

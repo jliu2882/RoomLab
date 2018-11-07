@@ -43,7 +43,7 @@ public class Board {
                 }else if(rand==3){
                     building[x][y] = new DiningRoom(x, y);
                 }else if(rand==4){
-                    building[x][y] = new MysteriousRoom(x, y);
+                    building[x][y] = new MysteriousRoom(x, y, "You hear whispering off in another room...");
                 }else if(rand==5){
                     building[x][y] = new LivingRoom(x, y);
                 }

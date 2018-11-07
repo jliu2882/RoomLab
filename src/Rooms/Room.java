@@ -1,15 +1,24 @@
 package Rooms;
 
 import People.Person;
+import Game.Board;
+import People.Criminal;
 
 public class Room {
 	Person occupant;
 	int xLoc,yLoc;
+	String msg="";
 
 	public Room(int x, int y)
 	{
 		xLoc = x;
 		yLoc = y;
+	}
+	public Room(int x, int y, String str)
+	{
+		xLoc = x;
+		yLoc = y;
+		msg = str;
 	}
 
 	/**
