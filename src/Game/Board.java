@@ -1,6 +1,7 @@
 package Game;
 
 import People.Criminal;
+import Rooms.Bedroom;
 import Rooms.Room;
 import Rooms.WinningRoom;
 import People.Person;
@@ -8,6 +9,11 @@ import People.Criminal;
 
 import javax.sound.midi.SysexMessage;
 import java.util.Scanner;
+
+/**
+ * mixed up x and y coordinates but the code works fine
+ * tried to implement different floors but ran out of time
+ */
 
 public class Board {
     private static int r;
@@ -29,7 +35,12 @@ public class Board {
         {
             for (int y = 0; y < building[x].length; y++)
             {
-                building[x][y] = new Room(x,y);
+                if(chanceSim(2)>0) {
+                    building[x][y] = new Room(x, y);
+                }
+                else{
+                    building[x][y] = new Bedroom(x, y);
+                }
             }
         }
 
@@ -54,7 +65,7 @@ public class Board {
         } else if(y<0){
             y=0;
         }
-        Criminal enemy1 = new Criminal("Inal","Crimson",x,y,floorNum);
+        Criminal enemy1 = new Criminal("Crim","inal",x,y,floorNum);
         return enemy1;
     }
     public static int chanceSim(int n){
@@ -69,6 +80,7 @@ public class Board {
         int y = p.getyLoc();
         int x2 = p2.getxLoc();
         int y2 = p2.getyLoc();
+
         String[][] map = new String[2*r+1][4*c+1];
         String finMap = "";
         for(int i =0; i < map.length; i++){
@@ -89,7 +101,12 @@ public class Board {
             }
         }
         map[2*x+1][4*y+2] = init.toUpperCase();
-        map[2*x2+1][4*y2+2] = "\uD83D\uDC80";
+        if(x2<r&&x2>=0 || y2<c&&y2>=0) {
+            map[2*x2 + 1][4*y2 + 2] = "\uD83D\uDC80";
+        }
+        else{
+            map[2*x2+1][4*y2+2]=" ";
+        }
         for(String[] row : map){
             for(String column: row){
                 finMap += column;
@@ -168,7 +185,7 @@ public class Board {
         if(defense.toLowerCase().contains("sidestep")){
             if(chanceSim(3)<0){
                 System.out.println("... sword. You tried to sidestep, but his swing connects. Lose 1 hp.");
-                player.loseHP(player);
+                player.loseHP(enemy,true);
             } else if(chanceSim(2)<0){
                 System.out.println("... pistol. He shoots, but you step away swiftly.");
             } else{
@@ -176,8 +193,8 @@ public class Board {
             }
         } else if(defense.toLowerCase().contains("backpedal")){
             if(chanceSim(3)<0){
-                System.out.println("... pistol. You tried to back up, but he manges to land a shot. Lose 1 hp.");
-                player.loseHP(player);
+                System.out.println("... pistol. You tried to back up, but he lands a shot. Lose 1 hp.");
+                player.loseHP(enemy,true);
             } else if(chanceSim(2)<0){
                 System.out.println("... rapier. He lunges at you, and misses you by an inch.");
             } else{
@@ -186,12 +203,15 @@ public class Board {
         } else if(defense.toLowerCase().contains("armor")){
             if(chanceSim(3)<0){
                 System.out.print("... rapier. You put on the flimsy armor, but the rapier cuts through. Lose 1 hp.");
-                player.loseHP(player);
+                player.loseHP(enemy,true);
             } else if(chanceSim(2)<0){
                 System.out.println("... sword. He swings, only to hit the tough chainmail.");
             } else{
                 System.out.println("... pistol. He shoots, and the bullet is easily deflected. Time to strik back!");
             }
+        } else{
+            System.out.println("That wasn't an option. Please choose again!");
+            combat(player,enemy);
         }
         System.out.println("You quickly reach into you pockets for any weapons. \n \033You have 4 pockets, which one do you go for?");
         String choice = in.nextLine();
@@ -199,24 +219,23 @@ public class Board {
         if(offense == 1){
             if(chanceSim(10)>0) {
                 System.out.println("You pull out a gun, and get a clean shot. The criminal runs out of the building.");
-                enemy.loseHP(enemy);
+                enemy.loseHP(player,true);
             } else {
                 System.out.println("You pull out a gun, but you miss your shot. The criminal runs off, still somewhere in the building.");
-                enemy.loseHP(enemy);
-                placeEnemy();
+                enemy.loseHP(player,true);
             }
         }
         else if(offense == 2){
-            System.out.println("You pull out your kitchen knife, and chase him. The criminal runs off, still somewhere in the building.");
-            enemy.loseHP(enemy);
-            placeEnemy();
+            System.out.println("You pull out your kitchen knife, and chase him. The criminal runs off.");
+            enemy.loseHP(player,true);
         }
         else if(offense == 3){
             System.out.println("You pull out a bag of sand. You menacingly throw it at him, blinding him. He runs through a window, and is promptly caught and arrested by the police.");
-            enemy.loseHP(enemy);
+            enemy.loseHP(player,true);
         }
         else if( offense == 4){
-            System.out.println("You pull out absolutely nothing.");
+            System.out.println("You pull out absolutely nothing. \n You try to get away.");
+            player.moveRandom();
         }
     }
 }
