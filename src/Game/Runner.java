@@ -59,7 +59,7 @@ public class Runner {
 			System.out.println("You have lost!");
 		}
 		else{
-			System.out.println("Congratulations!");
+			System.out.println("Congratulations!"); 
 		}
 		in.close();
 	}
