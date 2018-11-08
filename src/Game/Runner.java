@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * got x and y mixed up, but code still works
  *
- * SOMETIMES CODE DECIDES TO NOT WORK, CANNOT FIND WHY
+ * You cannot see all the classes at once bc it's much so things will close by themselves when you open new classes
  */
 
 public class Runner {
