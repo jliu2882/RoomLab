@@ -3,9 +3,7 @@ package Game;
 import People.Criminal;
 import Rooms.*;
 import People.Person;
-import People.Criminal;
 
-import javax.sound.midi.SysexMessage;
 import java.util.Scanner;
 
 /**
@@ -41,13 +39,14 @@ public class Board {
                 }else if(rand==2){
                     building[x][y] = new Bathroom(x, y);
                 }else if(rand==3){
-                    building[x][y] = new DiningRoom(x, y);
+                    building[x][y] = new Kitchen(x, y);
                 }else if(rand==4){
-                    building[x][y] = new MysteriousRoom(x, y, "You hear whispering off in another room...");
+                    building[x][y] = new MysteriousRoom(x, y, chanceSim(2));
                 }else if(rand==5){
                     building[x][y] = new LivingRoom(x, y);
                 }
             }
+            building[0][0] = new Room(0 , 0);
         }
 
         //Create a random winning room.

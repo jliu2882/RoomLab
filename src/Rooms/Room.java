@@ -6,19 +6,18 @@ import People.Criminal;
 
 public class Room {
 	Person occupant;
-	int xLoc,yLoc;
-	String msg="";
+	int xLoc,yLoc,enemy;
 
 	public Room(int x, int y)
 	{
 		xLoc = x;
 		yLoc = y;
 	}
-	public Room(int x, int y, String str)
+	public Room(int x, int y, int enemyInt)
 	{
 		xLoc = x;
 		yLoc = y;
-		msg = str;
+		enemy = enemyInt;
 	}
 
 	/**
