@@ -4,7 +4,7 @@ import People.Person;
 import Game.Board;
 import People.Criminal;
 
-public class Room {
+public abstract class Room {
 	Person occupant;
 	int xLoc,yLoc,enemy;
 

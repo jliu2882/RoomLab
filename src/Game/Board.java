@@ -1,6 +1,8 @@
 package Game;
 
 import People.Criminal;
+import People.Grunt;
+import People.Thief;
 import Rooms.*;
 import People.Person;
 
@@ -31,10 +33,8 @@ public class Board {
         {
             for (int y = 0; y < building[x].length; y++)
             {
-                int rand = (int)(Math.random()*6);
-                if(rand==0) {
-                    building[x][y] = new Room(x, y);
-                }else if(rand==1){
+                int rand = (int)(Math.random()*5+1);
+                if(rand==1){
                     building[x][y] = new Bedroom(x, y);
                 }else if(rand==2){
                     building[x][y] = new Bathroom(x, y);
@@ -46,7 +46,6 @@ public class Board {
                     building[x][y] = new LivingRoom(x, y);
                 }
             }
-            building[0][0] = new Room(0 , 0);
         }
 
         //Create a random winning room.
@@ -70,8 +69,36 @@ public class Board {
         } else if(y<1){
             y=1;
         }
-        Criminal enemy1 = new Criminal("Crim","inal",x,y,floorNum);
-        return enemy1;
+        if(chanceSim(2)>0) {
+            Thief enemy1 = new Thief("Speedy", "Criminal", x, y, floorNum);
+            return enemy1;
+        }
+        else{
+            Grunt enemy1 = new Grunt("Strong","Criminal", x, y, floorNum);
+            return enemy1;
+        }
+    }
+    public static Criminal placeEnemy(int type){
+        int x = mem1 + chanceSim(2);
+        int y = mem2 + chanceSim(2);
+        if(x>r){
+            x=r;
+        } else if(x<1){
+            x=1;
+        }
+        if(y>c){
+            y=c;
+        } else if(y<1){
+            y=1;
+        }
+        if(type>0) {
+            Thief enemy1 = new Thief("Speedy", "Criminal", x, y, floorNum);
+            return enemy1;
+        }
+        else{
+            Grunt enemy1 = new Grunt("Strong","Criminal", x, y, floorNum);
+            return enemy1;
+        }
     }
     public static int chanceSim(int n){
         int r = (int)(Math.random()*n);

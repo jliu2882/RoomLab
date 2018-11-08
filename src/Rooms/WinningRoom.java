@@ -23,6 +23,10 @@ public class WinningRoom extends Room {
 		Runner.gameOff();
 		System.out.println("You found the hostage. Well done!");
 	}
-
+	public void leaveRoom(Person x)
+	{
+		occupant = x;
+		occupant = null;
+	}
 
 }

@@ -30,7 +30,8 @@ public class Runner {
 		System.out.println("What is your last name?");
 		String familyName = in.nextLine();
 		Person player1 = new Person(firstName,familyName,0,0,"Player",3);
-		System.out.println(player1.toString() + ", we believe there is a criminal on the loose. Can you help us get to the hostage without any caasualties?");
+		System.out.println(player1.toString() + ", we believe there is a criminal on the loose. Can you help us get to the hostage without any casualties?");
+		System.out.println("Remember, these men are desperate, and will cling to life...");
 		if(!in.nextLine().toLowerCase().contains("ye")){
 			System.out.println("Well, too bad!");
 		}

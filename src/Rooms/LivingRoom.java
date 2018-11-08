@@ -16,4 +16,9 @@ public class LivingRoom extends Room {
         x.setyLoc(this.yLoc);
         System.out.println("You are in the living room. The TV seems to be playing static...");
     }
+    public void leaveRoom(Person x)
+    {
+        occupant = x;
+        occupant = null;
+    }
 }

@@ -16,4 +16,9 @@ public class Bathroom extends Room {
         x.setyLoc(this.yLoc);
         System.out.println("You are in the bathroom. Someone left the sink running...");
     }
+    public void leaveRoom(Person x)
+    {
+        occupant = x;
+        occupant = null;
+    }
 }
