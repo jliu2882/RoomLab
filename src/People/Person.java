@@ -1,8 +1,6 @@
 package People;
 
 import Game.Runner;
-import Game.Board;
-import Rooms.Room;
 
 /**
  * Person represents the player as they move through the game.
@@ -66,6 +64,6 @@ public class Person {
 		if(this.team.equals("Criminal") && this.hp<=0){
 			p=null;
 		}
-		System.out.println(this.toString() + " has " + this.hp + " hp left.");
+		System.out.println(this.team + " has " + this.hp + " hp left.");
 	}
 }

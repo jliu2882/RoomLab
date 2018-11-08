@@ -1,8 +1,6 @@
 package Rooms;
 
 import People.Person;
-import Game.Board;
-import People.Criminal;
 
 public abstract class Room {
 	Person occupant;

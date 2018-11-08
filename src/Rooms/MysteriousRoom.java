@@ -1,7 +1,6 @@
 package Rooms;
 
 import Game.Board;
-import Game.Runner;
 import People.Person;
 import People.Criminal;
 
