@@ -246,7 +246,7 @@ public class Board {
         System.out.println("You quickly reach into you pockets for any weapons. \n \033You have 4 pockets, which one do you go for?");
         String choice = in.nextLine();
         int offense = Integer.parseInt(choice);
-        if(offense == 1){
+        if(offense == 1){ 
             if(chanceSim(5)>0) {
                 System.out.println("You pull out a gun, and get a clean shot. The criminal runs out of the building.");
                 enemy.loseHP(enemy);
