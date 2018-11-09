@@ -9,6 +9,8 @@ import java.util.Scanner;
 /**
  * got x and y mixed up, but code still works
  *
+ * sometimes criminals don't like to die
+ *
  * You cannot see all the classes at once bc it's much so things will close by themselves when you open new classes
  */
 

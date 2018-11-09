@@ -64,6 +64,6 @@ public class Person {
 		if(this.team.equals("Criminal") && this.hp<=0){
 			p=null;
 		}
-		System.out.println(this.team + " has " + this.hp + " hp left.");
+		System.out.println(this.toString() + " has " + this.hp + " hp left.");
 	}
 }

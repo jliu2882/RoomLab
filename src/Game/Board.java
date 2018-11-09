@@ -70,11 +70,11 @@ public class Board {
             y=1;
         }
         if(chanceSim(2)>0) {
-            Thief enemy1 = new Thief("Speedy", "Criminal", x, y, floorNum);
+            Grunt enemy1 = new Grunt("Strong","Criminal", x, y, floorNum);
             return enemy1;
         }
         else{
-            Grunt enemy1 = new Grunt("Strong","Criminal", x, y, floorNum);
+            Thief enemy1 = new Thief("Speedy", "Criminal", x, y, floorNum);
             return enemy1;
         }
     }
@@ -247,7 +247,7 @@ public class Board {
         String choice = in.nextLine();
         int offense = Integer.parseInt(choice);
         if(offense == 1){
-            if(chanceSim(10)>0) {
+            if(chanceSim(5)>0) {
                 System.out.println("You pull out a gun, and get a clean shot. The criminal runs out of the building.");
                 enemy.loseHP(enemy);
             } else {
